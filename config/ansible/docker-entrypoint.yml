@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  become: true
+  connection: local
+  vars:
+    rancher_gen_dest: '/etc/dnsdist/dnsdist.conf'
+    rancher_gen_command: '/usr/local/bin/rancher-gen'
+    rancher_gen_notify_command: '/manage_dnsdist.sh'
+    rancher_gen_template: '/etc/dnsdist.conf.tmpl'
+  tasks:
+    - name: Configuring Rancher-Gen
+      template:
+        src: "/rancher-gen.conf.j2"
+        dest: "/etc/supervisor/conf.d/rancher-gen.conf"

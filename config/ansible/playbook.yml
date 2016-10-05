@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  become: true
+  connection: local
+  tasks:
+    - name: Updating Apt-Cache
+      apt:
+        update_cache: yes
+
+    - name: Installing Pre-Reqs
+      apt:
+        name: "{{ item }}"
+        state: "present"
+        install_recommends: no
+      with_items:
+        - 'dnsdist'
+        - 'psmisc'
+        - 'python-pip'
+        - 'supervisor'
+
+    - name: Installing Rancher-Gen
+      pip:
+        name: "rancher-gen"
+        state: "present"
+
+    - name: Generating manage_dnsdist.sh
+      template:
+        src: "/manage_dnsdist.sh.j2"
+        dest: "/manage_dnsdist.sh"
+        mode: 0775

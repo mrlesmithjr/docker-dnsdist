@@ -1,0 +1,5 @@
+controlSocket("0.0.0.0")
+{% for container in containers %}
+newServer("{{container['primaryIpAddress']}}")
+{% endfor %}
+setServerPolicy(firstAvailable)
